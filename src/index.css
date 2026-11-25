@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: #F8FAFC;
+    --color-surface: #FFFFFF;
+    --color-surface-subtle: #F1F5F9;
+    --color-surface-elevated: #FFFFFF;
+    --color-border: #E2E8F0;
+    --color-text: #0F172A;
+    --color-text-muted: #64748B;
+    --color-accent: #4F46E5;
+    --color-accent-hover: #4338CA;
+    --color-accent-glow: rgba(79, 70, 229, 0.2);
+    --color-success: #10B981;
+    --color-warning: #F59E0B;
+    --color-danger: #EF4444;
+  }
+
+  .dark {
+    --color-bg: #0B0C0E;
+    --color-surface: #12141A;
+    --color-surface-subtle: #181B22;
+    --color-surface-elevated: #1E222B;
+    --color-border: #232730;
+    --color-text: #EDEDED;
+    --color-text-muted: #94A3B8;
+    --color-accent: #6366F1;
+    --color-accent-hover: #4F46E5;
+    --color-accent-glow: rgba(99, 102, 241, 0.25);
+    --color-success: #10B981;
+    --color-warning: #F59E0B;
+    --color-danger: #EF4444;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  /* Accessible focus indicators */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Text selection theming */
+  ::selection {
+    background-color: var(--color-accent);
+    color: white;
+  }
+
+  /* Caret color for inputs */
+  input, textarea {
+    caret-color: var(--color-accent);
+  }
+
+  /* Linear-style headings */
+  h1 {
+    font-size: 2.25rem;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+  h2 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+  }
+  h3 {
+    font-size: 1.15rem;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+  }
+  h4 {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: var(--color-text-muted);
+    opacity: 0.7;
+  }
+
+  /* Hairline borders */
+  .border-hairline {
+    border-color: var(--color-border);
+  }
+}
