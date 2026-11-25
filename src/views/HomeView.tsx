@@ -170,7 +170,7 @@ export const HomeView: React.FC = () => {
       {/* 1. Welcome Banner */}
       <div className="pt-2">
         <p className="text-sm text-text-muted mb-2">{profile?.college}</p>
-        <h1 className="text-3xl sm:text-4xl font-serif font-medium text-text tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-display font-bold text-white tracking-tight">
           Welcome back, {profile?.name?.split(' ')[0] || 'Student'}
         </h1>
         <p className="text-base text-text-muted mt-3 max-w-2xl leading-relaxed">
@@ -206,7 +206,7 @@ export const HomeView: React.FC = () => {
           className="p-5 rounded-card bg-surface hover:bg-surface-subtle/50 cursor-pointer transition-all duration-smooth group"
         >
           <Users className="w-5 h-5 text-accent/70 group-hover:text-accent transition-colors" />
-          <div className="mt-3 text-3xl font-serif font-medium text-text">{myTeams.length}</div>
+          <div className="mt-3 text-3xl font-display font-bold text-white">{myTeams.length}</div>
           <p className="text-sm text-text-muted mt-1">My Teams</p>
         </div>
 
@@ -216,7 +216,7 @@ export const HomeView: React.FC = () => {
           className="p-5 rounded-card bg-surface hover:bg-surface-subtle/50 cursor-pointer transition-all duration-smooth group"
         >
           <Inbox className="w-5 h-5 text-accent/70 group-hover:text-accent transition-colors" />
-          <div className="mt-3 text-3xl font-serif font-medium text-text">{totalPending}</div>
+          <div className="mt-3 text-3xl font-display font-bold text-white">{totalPending}</div>
           <p className="text-sm text-text-muted mt-1">Pending Requests</p>
         </div>
 
@@ -226,7 +226,7 @@ export const HomeView: React.FC = () => {
           className="p-5 rounded-card bg-surface hover:bg-surface-subtle/50 cursor-pointer transition-all duration-smooth group"
         >
           <Calendar className="w-5 h-5 text-accent/70 group-hover:text-accent transition-colors" />
-          <div className="mt-3 text-3xl font-serif font-medium text-text">{events.length}</div>
+          <div className="mt-3 text-3xl font-display font-bold text-white">{events.length}</div>
           <p className="text-sm text-text-muted mt-1">Events</p>
         </div>
 
@@ -236,7 +236,7 @@ export const HomeView: React.FC = () => {
           className="p-5 rounded-card bg-surface hover:bg-surface-subtle/50 cursor-pointer transition-all duration-smooth group"
         >
           <CheckCircle2 className={`w-5 h-5 transition-colors ${profileCompletion.score === 100 ? 'text-success' : 'text-accent/70 group-hover:text-accent'}`} />
-          <div className="mt-3 text-3xl font-serif font-medium text-text">{profileCompletion.score}%</div>
+          <div className="mt-3 text-3xl font-display font-bold text-white">{profileCompletion.score}%</div>
           <p className="text-sm text-text-muted mt-1">Profile Complete</p>
         </div>
       </div>
@@ -245,7 +245,7 @@ export const HomeView: React.FC = () => {
       {totalPending > 0 && (
         <div className="p-6 rounded-card bg-accent/5 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-serif font-medium text-text">
+            <h3 className="text-lg font-display font-bold text-white">
               {totalPending} Pending {totalPending === 1 ? 'Action' : 'Actions'}
             </h3>
             <button
@@ -274,7 +274,7 @@ export const HomeView: React.FC = () => {
                       })}
                     </span>
                   </div>
-                  <h5 className="font-serif font-medium text-text">
+                  <h5 className="font-display font-bold text-white">
                     {req.team?.name || 'A Project Team'}
                   </h5>
                   <p className="text-sm text-text-muted">
@@ -324,7 +324,7 @@ export const HomeView: React.FC = () => {
                       })}
                     </span>
                   </div>
-                  <h5 className="font-serif font-medium text-text">
+                  <h5 className="font-display font-bold text-white">
                     {req.sender_profile?.name || 'A Student'} → {req.team?.name}
                   </h5>
                   <p className="text-sm text-text-muted">
@@ -365,7 +365,7 @@ export const HomeView: React.FC = () => {
       <div className="space-y-5">
         <div className="flex items-end justify-between">
           <div>
-            <h2 className="text-2xl font-serif font-medium text-text tracking-tight">
+            <h2 className="text-2xl font-display font-bold text-white tracking-tight">
               Discover Teammates
             </h2>
             <p className="text-sm text-text-muted mt-1">
@@ -400,7 +400,7 @@ export const HomeView: React.FC = () => {
       <div className="space-y-5">
         <div className="flex items-end justify-between">
           <div>
-            <h2 className="text-2xl font-serif font-medium text-text tracking-tight">
+            <h2 className="text-2xl font-display font-bold text-white tracking-tight">
               Featured Events
             </h2>
             <p className="text-sm text-text-muted mt-1">

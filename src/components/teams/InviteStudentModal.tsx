@@ -94,7 +94,7 @@ export const InviteStudentModal: React.FC<InviteStudentModalProps> = ({
             )}
           </div>
           <div>
-            <h5 className="font-serif font-medium text-sm text-text">{targetStudent.name}</h5>
+            <h5 className="font-display font-medium text-sm text-text">{targetStudent.name}</h5>
             <p className="text-[11px] text-text-muted">
               {targetStudent.skills.map((s) => s.name).slice(0, 3).join(', ')}
             </p>

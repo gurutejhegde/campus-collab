@@ -49,7 +49,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto bg-black/40 backdrop-blur-sm animate-fadeIn"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto bg-black/80 backdrop-blur-md animate-fadeIn"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -58,19 +58,22 @@ export const Modal: React.FC<ModalProps> = ({
     >
       <div
         ref={modalRef}
-        className={`bg-surface border border-border rounded-card p-6 w-full ${widthClasses[maxWidth]} shadow-popover my-8 space-y-5 animate-slideUp`}
+        className={`glass-card border border-white/[0.14] rounded-2xl p-6 md:p-7 w-full ${widthClasses[maxWidth]} shadow-popover-dark my-8 space-y-5 animate-slideUp relative overflow-hidden`}
       >
+        {/* Subtle top ambient glow */}
+        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent pointer-events-none" />
+
         {/* Header */}
-        <div className="flex items-start justify-between pb-3 border-b border-border">
+        <div className="flex items-start justify-between pb-3.5 border-b border-white/[0.08]">
           <div>
-            <h3 className="font-serif text-xl font-medium text-text">{title}</h3>
-            {subtitle && <p className="text-xs text-text-muted mt-0.5">{subtitle}</p>}
+            <h3 className="font-display text-xl font-bold text-white tracking-tight">{title}</h3>
+            {subtitle && <p className="text-xs text-text-muted mt-0.5 font-sans">{subtitle}</p>}
           </div>
 
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-full text-text-muted hover:text-text hover:bg-surface-subtle transition-colors"
+            className="p-1.5 rounded-xl text-text-muted hover:text-white hover:bg-white/[0.08] transition-colors"
             aria-label="Close dialog"
           >
             <X className="w-4 h-4" />

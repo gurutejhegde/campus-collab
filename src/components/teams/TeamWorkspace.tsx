@@ -141,23 +141,23 @@ export const TeamWorkspace: React.FC<TeamWorkspaceProps> = ({
   return (
     <div className="space-y-6">
       {/* Progress Card */}
-      <div className="p-5 rounded-card bg-surface border border-border space-y-3">
+      <div className="p-6 rounded-2xl glass-card border border-white/[0.08] space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Target className="w-4 h-4 text-accent" />
+            <Target className="w-4 h-4 text-purple-400" />
             <span className="text-xs font-mono uppercase tracking-wider text-text-muted">
               Sprint Milestone Progress
             </span>
           </div>
-          <span className="text-xs font-mono font-semibold text-accent">
+          <span className="text-xs font-mono font-bold text-gradient-brand">
             {completedCount} of {milestones.length} Completed ({progressPercent}%)
           </span>
         </div>
 
         {/* Real-time Progress Bar */}
-        <div className="w-full h-2 rounded-full bg-surface-subtle overflow-hidden border border-border/80">
+        <div className="w-full h-2.5 rounded-full bg-white/[0.05] overflow-hidden border border-white/[0.08] p-0.5">
           <div
-            className="h-full bg-accent transition-all duration-300 shadow-glow"
+            className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full transition-all duration-500 shadow-glow"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -165,11 +165,11 @@ export const TeamWorkspace: React.FC<TeamWorkspaceProps> = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Column: Milestones Checklist */}
-        <div className="p-5 rounded-card bg-surface border border-border flex flex-col justify-between space-y-4">
+        <div className="p-6 rounded-2xl glass-card border border-white/[0.08] flex flex-col justify-between space-y-4">
           <div className="space-y-3">
-            <div className="flex items-center justify-between pb-3 border-b border-border">
-              <h3 className="text-sm font-semibold text-text flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-accent" />
+            <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08]">
+              <h3 className="font-display text-sm font-bold text-white flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-purple-400" />
                 Team Milestones
               </h3>
 
@@ -187,21 +187,21 @@ export const TeamWorkspace: React.FC<TeamWorkspaceProps> = ({
 
             {/* Add Milestone Form */}
             {isAddingMilestone && (
-              <form onSubmit={handleAddMilestone} className="p-3 rounded-lg bg-surface-subtle border border-border space-y-2">
+              <form onSubmit={handleAddMilestone} className="p-3.5 rounded-xl glass-pill border border-white/[0.08] space-y-2.5">
                 <input
                   type="text"
                   required
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="e.g. Set up WebSocket backend sync"
-                  className="w-full px-3 py-1.5 text-xs bg-surface border border-border rounded-lg text-text focus:outline-none focus:border-accent"
+                  className="w-full px-3 py-2 text-xs glass-pill border border-white/[0.1] rounded-lg text-white focus:outline-none focus:border-purple-500/50"
                 />
                 <div className="flex items-center gap-2">
                   <input
                     type="date"
                     value={newDueDate}
                     onChange={(e) => setNewDueDate(e.target.value)}
-                    className="flex-1 px-3 py-1.5 text-xs bg-surface border border-border rounded-lg text-text focus:outline-none focus:border-accent"
+                    className="flex-1 px-3 py-1.5 text-xs glass-pill border border-white/[0.1] rounded-lg text-white focus:outline-none focus:border-purple-500/50"
                   />
                   <Button type="button" size="sm" variant="subtle" onClick={() => setIsAddingMilestone(false)}>
                     Cancel
@@ -279,11 +279,11 @@ export const TeamWorkspace: React.FC<TeamWorkspaceProps> = ({
         </div>
 
         {/* Right Column: Internal Team Feed / Standup Log */}
-        <div className="p-5 rounded-card bg-surface border border-border flex flex-col justify-between space-y-4">
+        <div className="p-6 rounded-2xl glass-card border border-white/[0.08] flex flex-col justify-between space-y-4">
           <div className="space-y-3">
-            <div className="pb-3 border-b border-border flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-text flex items-center gap-2">
-                <MessageSquare className="w-4 h-4 text-accent" />
+            <div className="pb-3.5 border-b border-white/[0.08] flex items-center justify-between">
+              <h3 className="font-display text-sm font-bold text-white flex items-center gap-2">
+                <MessageSquare className="w-4 h-4 text-purple-400" />
                 Team Sprint Updates
               </h3>
               <span className="text-[11px] font-mono text-text-muted">
@@ -293,13 +293,13 @@ export const TeamWorkspace: React.FC<TeamWorkspaceProps> = ({
 
             {/* Post update composer (members only) */}
             {isMember ? (
-              <form onSubmit={handlePostUpdate} className="space-y-2">
+              <form onSubmit={handlePostUpdate} className="space-y-2.5">
                 <textarea
                   rows={2}
                   value={newUpdateContent}
                   onChange={(e) => setNewUpdateContent(e.target.value)}
                   placeholder="Share a quick build update (e.g. 'Merged PR for auth flow, ready for testing')..."
-                  className="w-full px-3 py-2 text-xs bg-surface-subtle border border-border rounded-lg text-text focus:outline-none focus:border-accent resize-none"
+                  className="w-full px-3 py-2 text-xs glass-pill border border-white/[0.1] rounded-xl text-white focus:outline-none focus:border-purple-500/50 resize-none font-sans"
                 />
                 <div className="flex justify-end">
                   <Button
@@ -314,8 +314,8 @@ export const TeamWorkspace: React.FC<TeamWorkspaceProps> = ({
                 </div>
               </form>
             ) : (
-              <div className="p-3 rounded-lg bg-surface-subtle text-xs text-text-muted flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-accent" />
+              <div className="p-3.5 rounded-xl glass-pill border border-white/[0.08] text-xs text-text-muted flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-purple-400 shrink-0" />
                 <span>Join this team to post sprint updates and check off milestones.</span>
               </div>
             )}
@@ -326,23 +326,25 @@ export const TeamWorkspace: React.FC<TeamWorkspaceProps> = ({
                 No sprint updates posted yet.
               </div>
             ) : (
-              <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
+              <div className="space-y-2.5 max-h-72 overflow-y-auto pr-1 scrollbar-none">
                 {updates.map((upd) => (
                   <div
                     key={upd.id}
-                    className="p-3 rounded-lg bg-surface-subtle/60 border border-border/80 text-xs space-y-1.5"
+                    className="p-3.5 rounded-xl glass-pill border border-white/[0.06] text-xs space-y-1.5"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <img
-                          src={
-                            upd.author_avatar ||
-                            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80'
-                          }
-                          alt={upd.author_name}
-                          className="w-5 h-5 rounded-full object-cover border border-border"
-                        />
-                        <span className="font-semibold text-text">{upd.author_name}</span>
+                        <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 p-[1px]">
+                          <img
+                            src={
+                              upd.author_avatar ||
+                              'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80'
+                            }
+                            alt={upd.author_name}
+                            className="w-full h-full rounded-full object-cover"
+                          />
+                        </div>
+                        <span className="font-semibold text-white">{upd.author_name}</span>
                       </div>
                       <span className="text-[10px] font-mono text-text-muted">
                         {new Date(upd.created_at).toLocaleDateString([], {
@@ -351,7 +353,7 @@ export const TeamWorkspace: React.FC<TeamWorkspaceProps> = ({
                         })}
                       </span>
                     </div>
-                    <p className="text-text leading-relaxed pl-7">{upd.content}</p>
+                    <p className="text-text leading-relaxed pl-7 font-sans">{upd.content}</p>
                   </div>
                 ))}
               </div>

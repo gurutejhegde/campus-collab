@@ -223,7 +223,7 @@ export const TeamsView: React.FC = () => {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Users className="w-6 h-6 text-accent" />
-            <h1 className="text-2xl sm:text-3xl font-serif font-medium text-text">
+            <h1 className="text-2xl sm:text-3xl font-display font-bold text-white">
               Team Management
             </h1>
           </div>
@@ -246,7 +246,7 @@ export const TeamsView: React.FC = () => {
       {allTeams.length === 0 ? (
         <div className="py-20 text-center text-text-muted space-y-3 bg-surface rounded-card border border-border">
           <Users className="w-10 h-10 text-accent/60 mx-auto" />
-          <h3 className="font-serif text-xl text-text">No Teams Created Yet</h3>
+          <h3 className="font-display text-xl text-text">No Teams Created Yet</h3>
           <p className="text-xs max-w-sm mx-auto">
             Create your first team for a hackathon, final-year project, or research build.
           </p>
@@ -282,15 +282,15 @@ export const TeamsView: React.FC = () => {
                   <div
                     key={team.id}
                     onClick={() => setSelectedTeamId(team.id)}
-                    className={`p-3.5 rounded-card border cursor-pointer transition-all duration-smooth ${
+                    className={`p-3.5 rounded-2xl glass-card cursor-pointer transition-all duration-300 ${
                       isSelected
-                        ? 'bg-surface border-accent shadow-sm'
-                        : 'bg-surface border-border hover:border-text-muted/40'
+                        ? 'border-purple-500/50 shadow-glow bg-purple-500/10'
+                        : 'hover:border-white/20'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-card bg-accent/10 border border-accent/25 text-accent font-semibold text-xs flex items-center justify-center shrink-0 overflow-hidden">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500/20 via-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-300 font-bold text-xs flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
                           {team.logo_url ? (
                             <img
                               src={team.logo_url}
@@ -304,7 +304,7 @@ export const TeamsView: React.FC = () => {
 
                         <div>
                           <div className="flex items-center gap-1.5">
-                            <h4 className="font-serif font-medium text-sm text-text">
+                            <h4 className="font-display font-medium text-sm text-text">
                               {team.name}
                             </h4>
                             {isUserLead && (
@@ -374,11 +374,11 @@ export const TeamsView: React.FC = () => {
               ) : (
                 <>
                   {/* Team Master Card */}
-                  <div className="bg-surface border border-border rounded-card p-6 space-y-5 shadow-sm">
+                  <div className="glass-card border border-white/[0.08] rounded-2xl p-6 space-y-5 shadow-sm">
                 {/* Header */}
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-4 border-b border-border">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-4 border-b border-white/[0.08]">
                   <div className="flex items-start gap-4">
-                    <div className="w-14 h-14 rounded-card bg-accent/10 border border-accent/25 text-accent font-semibold text-xl flex items-center justify-center shrink-0 overflow-hidden">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500/20 via-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-300 font-bold text-xl flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
                       {activeTeam.logo_url ? (
                         <img
                           src={activeTeam.logo_url}
@@ -392,7 +392,7 @@ export const TeamsView: React.FC = () => {
 
                     <div>
                       <div className="flex items-center gap-2">
-                        <h2 className="font-serif font-medium text-2xl text-text">
+                        <h2 className="font-display font-medium text-2xl text-text">
                           {activeTeam.name}
                         </h2>
                         <span
@@ -529,7 +529,7 @@ export const TeamsView: React.FC = () => {
                 <div className="p-5 rounded-card bg-surface border border-accent/30 space-y-3 shadow-sm">
                   <div className="flex items-center gap-2">
                     <Inbox className="w-4 h-4 text-accent" />
-                    <h3 className="font-serif font-medium text-base text-text">
+                    <h3 className="font-display font-medium text-base text-text">
                       Pending Join Requests for this Team ({activeTeamPendingRequests.length})
                     </h3>
                   </div>
@@ -592,9 +592,9 @@ export const TeamsView: React.FC = () => {
               )}
 
               {/* Team Members Roster */}
-              <div className="bg-surface border border-border rounded-card p-6 space-y-4 shadow-sm">
-                <div className="flex items-center justify-between pb-3 border-b border-border">
-                  <h3 className="font-serif font-medium text-lg text-text flex items-center gap-2">
+              <div className="glass-card border border-white/[0.08] rounded-2xl p-6 space-y-4 shadow-sm">
+                <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08]">
+                  <h3 className="font-display font-bold text-lg text-white flex items-center gap-2">
                     <Users className="w-5 h-5 text-accent" />
                     <span>Team Roster ({activeTeam.members?.length || 1} members)</span>
                   </h3>

@@ -70,7 +70,7 @@ export const TeamDetailModal: React.FC<TeamDetailModalProps> = ({
 
             <div>
               <div className="flex items-center gap-2">
-                <h4 className="font-serif text-xl font-medium text-text">{team.name}</h4>
+                <h4 className="font-display text-xl font-medium text-text">{team.name}</h4>
                 <span
                   className={`px-2.5 py-0.5 rounded-pill text-[10px] font-sans font-medium flex items-center gap-1 border ${
                     isOpenVisibility

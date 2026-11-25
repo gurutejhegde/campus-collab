@@ -62,7 +62,7 @@ export const ProfileView: React.FC = () => {
   if (loading || !profileData) {
     return (
       <div className="py-20 text-center text-text-muted">
-        <p className="font-serif text-lg">Loading student profile...</p>
+        <p className="font-display text-lg">Loading student profile...</p>
       </div>
     );
   }
@@ -74,7 +74,7 @@ export const ProfileView: React.FC = () => {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <User className="w-6 h-6 text-accent" />
-            <h1 className="text-2xl sm:text-3xl font-serif font-medium text-text">
+            <h1 className="text-2xl sm:text-3xl font-display font-bold text-white">
               {isSelf ? 'My Student Profile' : `${profileData.name}'s Profile`}
             </h1>
           </div>
@@ -129,43 +129,46 @@ export const ProfileView: React.FC = () => {
         /* Visual Profile Presentation View */
         <div className="space-y-6">
           {/* Header Card */}
-          <div className="p-6 rounded-card bg-surface border border-border space-y-5 shadow-sm">
+          <div className="p-6 md:p-8 rounded-2xl glass-card border border-white/[0.08] space-y-6 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-purple-500/40 to-transparent pointer-events-none" />
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
               <div className="flex items-start gap-4">
-                <div className="w-20 h-20 rounded-full bg-accent/15 border border-accent/30 text-accent font-semibold text-2xl flex items-center justify-center shrink-0 overflow-hidden">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 p-[2px] shadow-glow shrink-0 overflow-hidden">
                   {profileData.avatar_url ? (
                     <img
                       src={profileData.avatar_url}
                       alt={profileData.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full rounded-full object-cover"
                     />
                   ) : (
-                    profileData.name.slice(0, 2).toUpperCase()
+                    <div className="w-full h-full rounded-full bg-surface-elevated flex items-center justify-center font-bold text-xl text-purple-300">
+                      {profileData.name.slice(0, 2).toUpperCase()}
+                    </div>
                   )}
                 </div>
 
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <h2 className="text-2xl font-serif font-medium text-text">
+                    <h2 className="text-2xl font-display font-bold text-white">
                       {profileData.name}
                     </h2>
-                    <span className="px-2.5 py-0.5 rounded-pill text-xs font-semibold bg-accent/15 text-accent border border-accent/25">
+                    <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30">
                       Year {profileData.year}
                     </span>
                   </div>
 
-                  <p className="text-sm text-text-muted">{profileData.department}</p>
-                  <p className="text-xs text-text-muted/80 flex items-center gap-1">
-                    <GraduationCap className="w-4 h-4 text-accent shrink-0" />
+                  <p className="text-sm text-text-muted font-sans">{profileData.department}</p>
+                  <p className="text-xs text-text-muted/80 flex items-center gap-1 font-sans">
+                    <GraduationCap className="w-4 h-4 text-purple-400 shrink-0" />
                     <span>{profileData.college}</span>
                   </p>
                 </div>
               </div>
 
               <div className="flex sm:flex-col items-center sm:items-end justify-between gap-3 shrink-0">
-                <span className="px-3 py-1.5 rounded-pill text-xs font-sans font-medium bg-surface-subtle text-text border border-border flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-accent" />
-                  <span>{profileData.weekly_availability} hrs/week availability</span>
+                <span className="px-3 py-1.5 rounded-full text-xs font-mono font-medium glass-pill text-emerald-400 border border-white/[0.08] flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>{profileData.weekly_availability} hrs/wk</span>
                 </span>
 
                 {isSelf && (
@@ -239,7 +242,7 @@ export const ProfileView: React.FC = () => {
 
           {/* Technical Skills Showcase */}
           <div className="p-6 rounded-card bg-surface border border-border space-y-4 shadow-sm">
-            <h3 className="font-serif font-medium text-lg text-text">
+            <h3 className="font-display font-medium text-lg text-text">
               Technical Skills & Proficiencies
             </h3>
 
@@ -304,7 +307,7 @@ export const ProfileView: React.FC = () => {
 
           {/* My Teams Showcase */}
           <div className="p-6 rounded-card bg-surface border border-border space-y-4 shadow-sm">
-            <h3 className="font-serif font-medium text-lg text-text flex items-center gap-2">
+            <h3 className="font-display font-medium text-lg text-text flex items-center gap-2">
               <Users className="w-5 h-5 text-accent" />
               <span>Project Teams ({userTeams.length})</span>
             </h3>
@@ -320,7 +323,7 @@ export const ProfileView: React.FC = () => {
                     className="p-3.5 rounded-card bg-surface-subtle border border-border hover:border-accent/40 cursor-pointer transition-colors space-y-1.5"
                   >
                     <div className="flex items-center justify-between">
-                      <h5 className="font-serif font-medium text-sm text-text">{team.name}</h5>
+                      <h5 className="font-display font-medium text-sm text-text">{team.name}</h5>
                       <span className="text-[10px] px-2 py-0.5 rounded-pill bg-surface text-text-muted border border-border">
                         {team.project_domain}
                       </span>

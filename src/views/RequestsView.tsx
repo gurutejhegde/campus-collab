@@ -157,7 +157,7 @@ export const RequestsView: React.FC = () => {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Inbox className="w-6 h-6 text-accent" />
-            <h1 className="text-2xl sm:text-3xl font-serif font-medium text-text">
+            <h1 className="text-2xl sm:text-3xl font-display font-bold text-white">
               Requests & Invitations
             </h1>
           </div>
@@ -286,7 +286,7 @@ export const RequestsView: React.FC = () => {
       {currentList.length === 0 ? (
         <div className="py-20 text-center text-text-muted space-y-2 bg-surface rounded-card border border-border">
           <Inbox className="w-8 h-8 text-accent/60 mx-auto" />
-          <h4 className="font-serif text-lg text-text">No requests in this category</h4>
+          <h4 className="font-display text-lg text-text">No requests in this category</h4>
           <p className="text-xs max-w-sm mx-auto">
             {activeTab === 'incoming_invites' &&
               "When teams invite you to collaborate, their invitations will appear here."}
@@ -306,7 +306,7 @@ export const RequestsView: React.FC = () => {
             return (
               <div
                 key={req.id}
-                className="bg-surface border border-border rounded-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-text-muted/40 transition-colors shadow-sm"
+                className="glass-card border border-white/[0.08] rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-purple-500/40 transition-all duration-300 shadow-sm"
               >
                 {/* Information Segment */}
                 <div className="space-y-2 max-w-2xl">
@@ -324,12 +324,12 @@ export const RequestsView: React.FC = () => {
                   {/* Context Title based on Tab */}
                   <div>
                     {activeTab === 'incoming_invites' && (
-                      <h4 className="font-serif font-medium text-lg text-text">
+                      <h4 className="font-display font-medium text-lg text-text">
                         Invited to join <span className="text-accent">{req.team?.name}</span>
                       </h4>
                     )}
                     {activeTab === 'incoming_join' && (
-                      <h4 className="font-serif font-medium text-lg text-text">
+                      <h4 className="font-display font-medium text-lg text-text">
                         <span
                           className="hover:underline cursor-pointer text-accent"
                           onClick={() => req.sender_profile && setInspectedProfile(req.sender_profile)}
@@ -340,7 +340,7 @@ export const RequestsView: React.FC = () => {
                       </h4>
                     )}
                     {activeTab === 'outgoing_invites' && (
-                      <h4 className="font-serif font-medium text-lg text-text">
+                      <h4 className="font-display font-medium text-lg text-text">
                         Invited{' '}
                         <span
                           className="hover:underline cursor-pointer text-accent"
@@ -354,7 +354,7 @@ export const RequestsView: React.FC = () => {
                       </h4>
                     )}
                     {activeTab === 'outgoing_join' && (
-                      <h4 className="font-serif font-medium text-lg text-text">
+                      <h4 className="font-display font-medium text-lg text-text">
                         You requested to join <span className="text-accent">{req.team?.name}</span>
                       </h4>
                     )}

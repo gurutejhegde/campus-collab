@@ -5,7 +5,6 @@ import {
   Github,
   MessageSquare,
   Share2,
-  Sparkles,
   ThumbsUp,
   UserPlus,
 } from 'lucide-react';
@@ -57,77 +56,86 @@ export const PostCard: React.FC<PostCardProps> = ({
   return (
     <article
       onClick={() => onOpenDetails(post)}
-      className="group relative flex flex-col justify-between rounded-card bg-surface border border-border p-5 hover:border-accent/40 hover:shadow-glow transition-all duration-smooth cursor-pointer"
+      className="group relative flex flex-col justify-between rounded-2xl glass-card p-5 transition-all duration-300 cursor-pointer overflow-hidden"
     >
+      {/* Top subtle highlight line */}
+      <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-purple-500/30 to-transparent group-hover:via-purple-500/70 transition-all duration-300" />
+
       <div>
         {/* Author Header */}
         <div className="flex items-start justify-between gap-3 mb-3.5">
-          <div className="flex items-center gap-3">
-            <img
-              src={
-                post.author_avatar ||
-                'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80'
-              }
-              alt={post.author_name}
-              className="w-10 h-10 rounded-full object-cover border border-border"
-            />
-            <div>
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 p-[1.5px] shrink-0 shadow-sm">
+              <img
+                src={
+                  post.author_avatar ||
+                  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80'
+                }
+                alt={post.author_name}
+                className="w-full h-full rounded-full object-cover"
+              />
+            </div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="font-medium text-sm text-text leading-tight group-hover:text-accent transition-colors">
+                <span className="font-semibold text-sm text-white leading-tight group-hover:text-purple-300 transition-colors truncate">
                   {post.author_name}
                 </span>
                 {isAuthor && (
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/20">
-                    You
+                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                    Author
                   </span>
                 )}
               </div>
-              <p className="text-xs text-text-muted leading-tight truncate max-w-[240px]">
+              <p className="text-xs text-text-muted leading-tight truncate">
                 {post.author_college}
               </p>
             </div>
           </div>
-          <span className="text-xs font-mono text-text-muted shrink-0">
+          <span className="text-[11px] font-mono text-text-muted shrink-0">
             {formatTime(post.created_at)}
           </span>
         </div>
 
         {/* Project Title & Tagline */}
-        <h3 className="text-base font-semibold text-text mb-1 group-hover:text-accent transition-colors flex items-center justify-between">
-          <span>{post.title}</span>
-          <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+        <h3 className="font-display text-base font-bold text-white mb-1 group-hover:text-purple-200 transition-colors flex items-center justify-between gap-2">
+          <span className="line-clamp-1">{post.title}</span>
+          <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-purple-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
         </h3>
-        <p className="text-xs text-accent font-medium mb-2.5 line-clamp-1">
+        <p className="text-xs text-purple-300/90 font-medium mb-3 line-clamp-1">
           {post.tagline}
         </p>
 
         {/* Media Preview (if any) */}
         {post.media_url && (
-          <div className="mb-3 rounded-lg overflow-hidden border border-border/80 bg-surface-subtle max-h-48 relative">
+          <div className="mb-3.5 rounded-xl overflow-hidden border border-white/[0.08] bg-black/40 max-h-48 relative">
             <img
               src={post.media_url}
               alt={post.title}
-              className="w-full h-44 object-cover group-hover:scale-[1.01] transition-transform duration-300"
+              className="w-full h-44 object-cover group-hover:scale-[1.02] transition-transform duration-500"
               loading="lazy"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
           </div>
         )}
 
         {/* Description */}
-        <p className="text-xs text-text-muted line-clamp-2 leading-relaxed mb-3.5">
+        <p className="text-xs text-text-muted line-clamp-2 leading-relaxed mb-3.5 font-sans">
           {post.description}
         </p>
 
-        {/* Seeking Teammates Pill Banner */}
+        {/* Seeking Teammates Radiant Pill Banner */}
         {post.seeking_teammates && (
-          <div className="mb-3.5 px-3 py-2 rounded-lg bg-accent/10 border border-accent/25 flex items-center justify-between gap-2">
-            <div className="flex items-center gap-1.5 min-w-0">
-              <Sparkles className="w-3.5 h-3.5 text-accent shrink-0" />
-              <span className="text-xs font-medium text-accent truncate">
-                Looking for teammates
+          <div className="mb-3.5 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500/10 via-cyan-500/10 to-transparent border border-emerald-500/25 flex items-center justify-between gap-2 shadow-sm">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span className="text-xs font-semibold text-emerald-300 truncate">
+                Seeking Teammates
                 {post.desired_skills && post.desired_skills.length > 0 && (
                   <span className="text-text-muted font-normal ml-1">
-                    ({post.desired_skills.join(', ')})
+                    ({post.desired_skills.slice(0, 2).join(', ')}{post.desired_skills.length > 2 ? '...' : ''})
                   </span>
                 )}
               </span>
@@ -139,7 +147,7 @@ export const PostCard: React.FC<PostCardProps> = ({
                   e.stopPropagation();
                   onPitchToJoin(post);
                 }}
-                className="shrink-0 text-[11px] font-medium text-accent hover:underline flex items-center gap-1"
+                className="shrink-0 text-[11px] font-semibold text-emerald-300 hover:text-white bg-emerald-500/20 hover:bg-emerald-500/30 px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1 transition-colors"
               >
                 <UserPlus className="w-3 h-3" />
                 Pitch
@@ -148,12 +156,12 @@ export const PostCard: React.FC<PostCardProps> = ({
           </div>
         )}
 
-        {/* Tags */}
+        {/* Tech Tags */}
         <div className="flex flex-wrap gap-1.5 mb-4">
           {post.tags.map((tag) => (
             <span
               key={tag}
-              className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-surface-subtle text-text-muted border border-border/80"
+              className="text-[10px] font-mono px-2 py-0.5 rounded-md glass-pill text-text-muted border border-white/[0.06]"
             >
               #{tag}
             </span>
@@ -162,19 +170,19 @@ export const PostCard: React.FC<PostCardProps> = ({
       </div>
 
       {/* Footer / Interaction Toolbar */}
-      <div className="pt-3 border-t border-border flex items-center justify-between gap-2">
+      <div className="pt-3 border-t border-white/[0.08] flex items-center justify-between gap-2">
         {/* Left: Upvotes & Comments */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
               onUpvote(post.id);
             }}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill text-xs font-mono font-medium transition-all ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold transition-all duration-200 ${
               isUpvoted
-                ? 'bg-accent text-white shadow-glow'
-                : 'bg-surface-subtle text-text-muted hover:text-text hover:bg-surface-elevated border border-border'
+                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-glow-pink scale-105'
+                : 'glass-pill text-text-muted hover:text-white hover:bg-white/[0.08] border border-white/[0.08]'
             }`}
             title={isUpvoted ? 'Remove upvote' : 'Upvote this project'}
           >
@@ -188,23 +196,23 @@ export const PostCard: React.FC<PostCardProps> = ({
               e.stopPropagation();
               onOpenDetails(post);
             }}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill text-xs font-mono text-text-muted hover:text-text hover:bg-surface-subtle transition-colors"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono text-text-muted hover:text-white glass-pill border border-white/[0.08] transition-colors"
           >
             <MessageSquare className="w-3.5 h-3.5" />
             <span>{post.comments_count}</span>
           </button>
         </div>
 
-        {/* Right: Quick External Links & Share */}
-        <div className="flex items-center gap-1.5">
+        {/* Right: Quick Links */}
+        <div className="flex items-center gap-1">
           {post.github_url && (
             <a
               href={post.github_url}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="p-1.5 rounded-lg text-text-muted hover:text-text hover:bg-surface-subtle border border-transparent hover:border-border transition-colors"
-              title="View Source on GitHub"
+              className="p-1.5 rounded-lg text-text-muted hover:text-white hover:bg-white/[0.08] transition-colors"
+              title="View on GitHub"
             >
               <Github className="w-3.5 h-3.5" />
             </a>
@@ -215,7 +223,7 @@ export const PostCard: React.FC<PostCardProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="p-1.5 rounded-lg text-text-muted hover:text-accent hover:bg-surface-subtle border border-transparent hover:border-border transition-colors"
+              className="p-1.5 rounded-lg text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 transition-colors"
               title="Open Live Demo"
             >
               <ExternalLink className="w-3.5 h-3.5" />
@@ -224,7 +232,7 @@ export const PostCard: React.FC<PostCardProps> = ({
           <button
             type="button"
             onClick={handleShare}
-            className="p-1.5 rounded-lg text-text-muted hover:text-text hover:bg-surface-subtle border border-transparent hover:border-border transition-colors"
+            className="p-1.5 rounded-lg text-text-muted hover:text-white hover:bg-white/[0.08] transition-colors"
             title={copied ? 'Link copied!' : 'Share project'}
           >
             <Share2 className="w-3.5 h-3.5" />

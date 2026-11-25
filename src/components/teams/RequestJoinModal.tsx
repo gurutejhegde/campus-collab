@@ -76,7 +76,7 @@ export const RequestJoinModal: React.FC<RequestJoinModalProps> = ({
               )}
             </div>
             <div>
-              <h5 className="font-serif font-medium text-sm text-text">{targetTeam.name}</h5>
+              <h5 className="font-display font-medium text-sm text-text">{targetTeam.name}</h5>
               <p className="text-[11px] text-text-muted">{targetTeam.description}</p>
             </div>
           </div>

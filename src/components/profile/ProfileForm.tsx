@@ -110,7 +110,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ initialProfile, onSave
     <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
       {/* 1. Basic Info Section */}
       <div className="bg-surface border border-border rounded-card p-6 space-y-4">
-        <h4 className="font-serif font-medium text-lg text-text border-b border-border pb-2.5">
+        <h4 className="font-display font-medium text-lg text-text border-b border-border pb-2.5">
           Basic Student Information
         </h4>
 
@@ -215,7 +215,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ initialProfile, onSave
 
       {/* 2. Technical Skills Section */}
       <div className="bg-surface border border-border rounded-card p-6 space-y-4">
-        <h4 className="font-serif font-medium text-lg text-text border-b border-border pb-2.5">
+        <h4 className="font-display font-medium text-lg text-text border-b border-border pb-2.5">
           Skills & Technical Expertise
         </h4>
 
@@ -241,7 +241,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ initialProfile, onSave
 
       {/* 3. Interests & Project Domains */}
       <div className="bg-surface border border-border rounded-card p-6 space-y-4">
-        <h4 className="font-serif font-medium text-lg text-text border-b border-border pb-2.5">
+        <h4 className="font-display font-medium text-lg text-text border-b border-border pb-2.5">
           Interests, Domains & Availability
         </h4>
 
@@ -293,7 +293,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ initialProfile, onSave
 
       {/* 4. Social & External Links */}
       <div className="bg-surface border border-border rounded-card p-6 space-y-4">
-        <h4 className="font-serif font-medium text-lg text-text border-b border-border pb-2.5">
+        <h4 className="font-display font-medium text-lg text-text border-b border-border pb-2.5">
           External Links & Showcase
         </h4>
 

@@ -217,15 +217,15 @@ export const ExploreView: React.FC = () => {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-border">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/[0.08]">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Compass className="w-6 h-6 text-accent" />
-            <h1 className="text-2xl sm:text-3xl font-serif font-medium text-text">
+            <Compass className="w-5 h-5 text-purple-400" />
+            <h1 className="text-2xl sm:text-3xl font-display font-bold text-white tracking-tight">
               Explore Campus Talent & Teams
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-text-muted max-w-xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-text-muted max-w-xl leading-relaxed font-sans">
             Discover fellow student engineers by technical stack, academic year, and domain,
             or browse active teams looking for contributors.
           </p>
@@ -243,15 +243,15 @@ export const ExploreView: React.FC = () => {
       </div>
 
       {/* Segmented Sub-Tab Switcher */}
-      <div className="flex items-center justify-between gap-4 border-b border-border pb-3">
-        <div className="flex items-center gap-1.5 p-1 bg-surface-subtle rounded-pill border border-border">
+      <div className="flex items-center justify-between gap-4 border-b border-white/[0.08] pb-3">
+        <div className="flex items-center gap-1.5 p-1 glass-pill rounded-full border border-white/[0.08]">
           <button
             type="button"
             onClick={() => setActiveTab('students')}
-            className={`px-4 py-1.5 rounded-pill text-xs font-sans font-medium transition-colors ${
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
               activeTab === 'students'
-                ? 'bg-accent text-white shadow-sm'
-                : 'text-text-muted hover:text-text'
+                ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-glow'
+                : 'text-text-muted hover:text-white'
             }`}
           >
             Students ({filteredStudents.length})
@@ -259,17 +259,17 @@ export const ExploreView: React.FC = () => {
           <button
             type="button"
             onClick={() => setActiveTab('teams')}
-            className={`px-4 py-1.5 rounded-pill text-xs font-sans font-medium transition-colors ${
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
               activeTab === 'teams'
-                ? 'bg-accent text-white shadow-sm'
-                : 'text-text-muted hover:text-text'
+                ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-glow'
+                : 'text-text-muted hover:text-white'
             }`}
           >
             Teams ({filteredTeams.length})
           </button>
         </div>
 
-        <span className="text-xs text-text-muted hidden sm:inline">
+        <span className="text-xs text-text-muted hidden sm:inline font-mono">
           {activeTab === 'students'
             ? 'Connect with peers looking to collaborate'
             : 'Find open project teams and submit join requests'}
@@ -277,7 +277,7 @@ export const ExploreView: React.FC = () => {
       </div>
 
       {/* Universal Search & Faceted Filter Bar */}
-      <div className="p-4 rounded-card bg-surface border border-border space-y-3">
+      <div className="p-4 rounded-2xl glass-card border border-white/[0.08] space-y-3">
         {/* Search Input */}
         <div className="relative">
           <Search className="w-4 h-4 text-text-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -404,7 +404,7 @@ export const ExploreView: React.FC = () => {
       {activeTab === 'students' ? (
         filteredStudents.length === 0 ? (
           <div className="py-16 text-center text-text-muted space-y-2 bg-surface rounded-card border border-border">
-            <h4 className="font-serif text-lg text-text">No students found matching your criteria</h4>
+            <h4 className="font-display text-lg text-text">No students found matching your criteria</h4>
             <p className="text-xs max-w-sm mx-auto">
               Try adjusting your search terms, changing the department filter, or clearing selected skills.
             </p>
@@ -423,7 +423,7 @@ export const ExploreView: React.FC = () => {
         )
       ) : filteredTeams.length === 0 ? (
         <div className="py-16 text-center text-text-muted space-y-2 bg-surface rounded-card border border-border">
-          <h4 className="font-serif text-lg text-text">No teams found</h4>
+          <h4 className="font-display text-lg text-text">No teams found</h4>
           <p className="text-xs max-w-sm mx-auto">
             Try broadening your search query or creating your own team to start recruiting collaborators.
           </p>
