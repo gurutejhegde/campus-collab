@@ -1,39 +1,74 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { ThemeProvider } from './context/ThemeContext';
-import { DataStoreProvider } from './context/DataStoreContext';
-import { AuthProvider } from './context/AuthContext';
-import { AppLayout } from './components/layout/AppLayout';
-import { ShowcaseView } from './views/ShowcaseView';
-import { ExploreView } from './views/ExploreView';
-import { TeamsView } from './views/TeamsView';
-import { EventsView } from './views/EventsView';
-import { RequestsView } from './views/RequestsView';
-import { ProfileView } from './views/ProfileView';
+import React from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { AppProvider, useApp } from './context/AppContext';
+import { AuthPage } from './features/auth/AuthPage';
+import { SetupEnvView } from './features/auth/SetupEnvView';
+import { EventsPage } from './features/events/EventsPage';
+import { FinderPage } from './features/finder/FinderPage';
+import { OnboardingPage } from './features/profile/OnboardingPage';
+import { ProfilePage } from './features/profile/ProfilePage';
+import { RequestsPage } from './features/requests/RequestsPage';
+import { AppShell } from './features/shell/AppShell';
+import { StepPlaceholder } from './features/shell/StepPlaceholder';
+import { TeamFormPage } from './features/teams/TeamFormPage';
+import { ToastProvider } from './ui/Toast';
+
+const AppGate: React.FC = () => {
+  const { isConfigured, session, profile, loading } = useApp();
+
+  if (!isConfigured) {
+    return <SetupEnvView />;
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-bg text-text-muted flex items-center justify-center text-xs font-mono">
+        Connecting to Supabase...
+      </div>
+    );
+  }
+
+  if (!session) {
+    return <AuthPage />;
+  }
+
+  if (!profile || !profile.onboarding_completed) {
+    return <OnboardingPage />;
+  }
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<AppShell />}>
+          <Route index element={<FinderPage />} />
+          <Route path="teams/new" element={<TeamFormPage />} />
+          <Route path="teams/:teamId/edit" element={<TeamFormPage />} />
+          <Route path="events" element={<EventsPage />} />
+          <Route
+            path="blueprint"
+            element={
+              <StepPlaceholder
+                step="Next Step: AI Layer"
+                title="Idea Blueprint & Smart AI Matching"
+                description="Paste an idea to map tools/roles, score learners + experts, and summarize GitHub work."
+              />
+            }
+          />
+          <Route path="requests" element={<RequestsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export function App() {
   return (
-    <ThemeProvider>
-      <DataStoreProvider>
-        <AuthProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<AppLayout />}>
-                <Route index element={<ShowcaseView />} />
-                <Route path="showcase" element={<ShowcaseView />} />
-                <Route path="explore" element={<ExploreView />} />
-                <Route path="teams" element={<TeamsView />} />
-                <Route path="teams/:teamId" element={<TeamsView />} />
-                <Route path="events" element={<EventsView />} />
-                <Route path="events/:eventId" element={<EventsView />} />
-                <Route path="requests" element={<RequestsView />} />
-                <Route path="profile" element={<ProfileView />} />
-                <Route path="profile/:userId" element={<ProfileView />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </AuthProvider>
-      </DataStoreProvider>
-    </ThemeProvider>
+    <ToastProvider>
+      <AppProvider>
+        <AppGate />
+      </AppProvider>
+    </ToastProvider>
   );
 }
