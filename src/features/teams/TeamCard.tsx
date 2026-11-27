@@ -1,27 +1,40 @@
 import React from 'react';
-import { Calendar, Globe, Lock, Plus, Sparkles } from 'lucide-react';
+import { Calendar, ChevronDown, ChevronUp, Globe, Lock, Plus, Sparkles } from 'lucide-react';
 import { clsx } from 'clsx';
 import { getTeamSeatStats } from '../../core/engine/teamSeats';
 import { Team } from '../../core/types/domain';
 import { Button } from '../../ui/Button';
 import { Pill } from '../../ui/Pill';
+import { TeamRosterSection } from './TeamRosterSection';
 
 interface TeamCardProps {
   team: Team;
   currentUserId: string;
   selected?: boolean;
+  mobileExpanded?: boolean;
   hasPendingJoinRequest?: boolean;
   onSelect?: (team: Team) => void;
   onQuickJoin?: (team: Team) => void;
+  onEdit?: (team: Team) => void;
+  onRequestDelete?: (team: Team) => void;
+  onLeave?: (teamId: string) => void;
+  onRemoveMember?: (teamId: string, userId: string, name: string) => void;
+  onRequestJoin?: (team: Team, preferredRole?: string) => void;
 }
 
 export const TeamCard: React.FC<TeamCardProps> = ({
   team,
   currentUserId,
   selected = false,
+  mobileExpanded = false,
   hasPendingJoinRequest = false,
   onSelect,
   onQuickJoin,
+  onEdit,
+  onRequestDelete,
+  onLeave,
+  onRemoveMember,
+  onRequestJoin,
 }) => {
   const members = team.members || [];
   const { memberCount, maxMembers, openSeats, isFull, fillPct, availableOpenRoles } =
@@ -112,14 +125,35 @@ export const TeamCard: React.FC<TeamCardProps> = ({
                 <Lock className="w-3 h-3" />
               )}
             </span>
+            {onSelect && (
+              <span className="lg:hidden p-1 text-text-dim" aria-hidden="true">
+                {mobileExpanded ? (
+                  <ChevronUp className="w-3.5 h-3.5" />
+                ) : (
+                  <ChevronDown className="w-3.5 h-3.5" />
+                )}
+              </span>
+            )}
           </div>
         </div>
 
-        {/* Description */}
-        <p className="text-xs text-text-muted line-clamp-2 leading-relaxed">{team.description}</p>
+        {/* Description (clamped when collapsed; extends cleanly in-place on mobile) */}
+        <p
+          className={clsx(
+            'text-xs text-text-muted leading-relaxed',
+            mobileExpanded ? 'lg:line-clamp-2' : 'line-clamp-2'
+          )}
+        >
+          {team.description}
+        </p>
 
-        {/* Visual Squad Seat Map */}
-        <div className="flex items-center justify-between gap-3 pt-1">
+        {/* Compact Squad Seat Map (desktop always; mobile when collapsed) */}
+        <div
+          className={clsx(
+            'flex items-center justify-between gap-3 pt-1',
+            mobileExpanded && 'hidden lg:flex'
+          )}
+        >
           <div className="flex items-center gap-1.5 flex-wrap">
             {members.map((m) => {
               const initials = (m.profile?.name || 'M')
@@ -168,9 +202,14 @@ export const TeamCard: React.FC<TeamCardProps> = ({
           )}
         </div>
 
-        {/* Open Role Tickets & Stack */}
+        {/* Compact Open Role Tickets & Stack (desktop always; mobile when collapsed) */}
         {(availableOpenRoles.length > 0 || team.required_skills.length > 0 || isFull) && (
-          <div className="flex flex-wrap gap-1.5 pt-2.5 border-t border-border">
+          <div
+            className={clsx(
+              'flex flex-wrap gap-1.5 pt-2.5 border-t border-border',
+              mobileExpanded && 'hidden lg:flex'
+            )}
+          >
             {isFull ? (
               <Pill variant="ok">Squad Full</Pill>
             ) : (
@@ -187,6 +226,37 @@ export const TeamCard: React.FC<TeamCardProps> = ({
             {team.required_skills.slice(0, 4).map((s) => (
               <Pill key={s}>{s}</Pill>
             ))}
+          </div>
+        )}
+
+        {/* In-place extended mobile details */}
+        {mobileExpanded && (
+          <div className="lg:hidden space-y-4" onClick={(e) => e.stopPropagation()}>
+            {team.required_skills && team.required_skills.length > 0 && (
+              <div className="space-y-2 pt-3 border-t border-border">
+                <div className="text-[11px] font-semibold text-text-dim uppercase tracking-wider">
+                  Stack & Tools
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {team.required_skills.map((s) => (
+                    <Pill key={s} variant="strong">
+                      {s}
+                    </Pill>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <TeamRosterSection
+              team={team}
+              currentUserId={currentUserId}
+              hasPendingJoinRequest={hasPendingJoinRequest}
+              onEdit={onEdit || (() => {})}
+              onRequestDelete={onRequestDelete || (() => {})}
+              onLeave={onLeave || (() => {})}
+              onRemoveMember={onRemoveMember || (() => {})}
+              onRequestJoin={onRequestJoin || onQuickJoin || (() => {})}
+            />
           </div>
         )}
       </div>

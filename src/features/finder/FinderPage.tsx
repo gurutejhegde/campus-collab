@@ -1,18 +1,19 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ExternalLink, Github, Plus, Search, UserPlus, Users } from 'lucide-react';
+import { Plus, Search, Users } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { isTeamVisibleInTab } from '../../core/engine/teamSeats';
 import { Profile, Team, TeamRequest } from '../../core/types/domain';
 import { Button } from '../../ui/Button';
 import { Card } from '../../ui/Card';
 import { ConfirmModal } from '../../ui/ConfirmModal';
-import { Pill } from '../../ui/Pill';
 import { useToast } from '../../ui/Toast';
 import { InviteStudentModal } from '../teams/InviteStudentModal';
 import { RequestJoinModal } from '../teams/RequestJoinModal';
 import { TeamCard } from '../teams/TeamCard';
 import { TeamInspector } from '../teams/TeamInspector';
+import { StudentCard } from './StudentCard';
+import { StudentInspector } from './StudentInspector';
 
 type TeamFilter = 'all' | 'mine' | 'standalone' | 'event' | 'learner';
 
@@ -21,15 +22,9 @@ export const FinderPage: React.FC = () => {
   const { profile, dataStore } = useApp();
   const { showToast } = useToast();
   const searchRef = useRef<HTMLInputElement>(null);
-  const inspectorRef = useRef<HTMLDivElement>(null);
 
-  const scrollInspectorOnMobile = () => {
-    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
-      window.requestAnimationFrame(() => {
-        inspectorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    }
-  };
+  const [mobileExpandedTeamId, setMobileExpandedTeamId] = useState<string | null>(null);
+  const [mobileExpandedStudentId, setMobileExpandedStudentId] = useState<string | null>(null);
 
   const [mode, setMode] = useState<'teams' | 'students'>('teams');
   const [teamFilter, setTeamFilter] = useState<TeamFilter>('all');
@@ -300,30 +295,48 @@ export const FinderPage: React.FC = () => {
                 </div>
               </Card>
             ) : (
-              filteredTeams.map((team) => (
-                <TeamCard
-                  key={team.id}
-                  team={team}
-                  currentUserId={profile.id}
-                  selected={activeTeam?.id === team.id}
-                  hasPendingJoinRequest={pendingTeamIds.has(team.id)}
-                  onSelect={(t) => {
-                    setSelectedTeamId(t.id);
-                    scrollInspectorOnMobile();
-                  }}
-                  onQuickJoin={(t) => {
-                    setJoinDefaultRole(undefined);
-                    setJoinTargetTeam(t);
-                  }}
-                />
-              ))
+              filteredTeams.map((team) => {
+                const isExpandedOnMobile = mobileExpandedTeamId === team.id;
+
+                return (
+                  <TeamCard
+                    key={team.id}
+                    team={team}
+                    currentUserId={profile.id}
+                    selected={activeTeam?.id === team.id || isExpandedOnMobile}
+                    mobileExpanded={isExpandedOnMobile}
+                    hasPendingJoinRequest={pendingTeamIds.has(team.id)}
+                    onSelect={(t) => {
+                      setSelectedTeamId(t.id);
+                      setMobileExpandedTeamId((prev) => (prev === t.id ? null : t.id));
+                    }}
+                    onQuickJoin={(t) => {
+                      setJoinDefaultRole(undefined);
+                      setJoinTargetTeam(t);
+                    }}
+                    onEdit={(t) => navigate(`/teams/${t.id}/edit`)}
+                    onRequestDelete={(t) => setDeleteTargetTeam(t)}
+                    onLeave={async (teamId) => {
+                      await dataStore.leaveTeam(teamId, profile.id);
+                      showToast('Left team');
+                      loadAll();
+                    }}
+                    onRemoveMember={async (teamId, userId, name) => {
+                      await dataStore.removeMember(teamId, userId);
+                      showToast(`Removed ${name} from team`);
+                      loadAll();
+                    }}
+                    onRequestJoin={(t, preferredRole) => {
+                      setJoinDefaultRole(preferredRole);
+                      setJoinTargetTeam(t);
+                    }}
+                  />
+                );
+              })
             )}
           </div>
 
-          <div
-            ref={inspectorRef}
-            className="lg:col-span-5 lg:self-start lg:sticky lg:top-[76px]"
-          >
+          <div className="hidden lg:block lg:col-span-5 lg:self-start lg:sticky lg:top-[76px]">
             <TeamInspector
               team={activeTeam}
               currentUserId={profile.id}
@@ -361,154 +374,29 @@ export const FinderPage: React.FC = () => {
             ) : (
               filteredStudents.map((student) => {
                 const isSelected = activeStudent?.id === student.id;
-                const initials = student.name
-                  .split(' ')
-                  .map((part) => part[0])
-                  .join('')
-                  .slice(0, 2)
-                  .toUpperCase();
+                const isExpandedOnMobile = mobileExpandedStudentId === student.id;
                 return (
-                  <Card
+                  <StudentCard
                     key={student.id}
-                    interactive
-                    selected={isSelected}
-                    onClick={() => {
-                      setSelectedStudentId(student.id);
-                      scrollInspectorOnMobile();
+                    student={student}
+                    selected={isSelected || isExpandedOnMobile}
+                    mobileExpanded={isExpandedOnMobile}
+                    onSelect={(s) => {
+                      setSelectedStudentId(s.id);
+                      setMobileExpandedStudentId((prev) => (prev === s.id ? null : s.id));
                     }}
-                    className="p-4 space-y-2.5"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-9 h-9 rounded-[9px] bg-surface-elevated border border-border-strong grid place-items-center text-xs font-semibold shrink-0">
-                          {initials}
-                        </div>
-                        <div className="min-w-0">
-                          <div className="font-semibold text-[14.5px] text-text truncate">
-                            {student.name}
-                          </div>
-                          <div className="text-xs text-text-muted truncate">
-                            {student.college} · Yr {student.year} · {student.department}
-                          </div>
-                        </div>
-                      </div>
-                      {student.open_to_learning && (
-                        <Pill variant="burgundy" className="shrink-0">
-                          Learner
-                        </Pill>
-                      )}
-                    </div>
-
-                    {student.bio && (
-                      <p className="text-xs text-text-muted line-clamp-2">{student.bio}</p>
-                    )}
-
-                    <div className="flex flex-wrap gap-1.5">
-                      {student.skills.slice(0, 4).map((s) => (
-                        <Pill key={s.name} variant="strong">
-                          {s.name}
-                        </Pill>
-                      ))}
-                      {student.learning_goals.slice(0, 2).map((l) => (
-                        <Pill key={l}>Learning: {l}</Pill>
-                      ))}
-                    </div>
-                  </Card>
+                    onInvite={(s) => setInviteTargetStudent(s)}
+                  />
                 );
               })
             )}
           </div>
 
-          <div
-            ref={inspectorRef}
-            className="lg:col-span-5 lg:self-start lg:sticky lg:top-[76px]"
-          >
-            {activeStudent ? (
-              <Card className="p-5 space-y-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h2 className="text-[17px] font-semibold text-text">{activeStudent.name}</h2>
-                    <p className="text-xs text-text-muted mt-0.5">
-                      {activeStudent.college} · {activeStudent.department} · Year {activeStudent.year}
-                    </p>
-                  </div>
-                  <Pill variant="strong" className="font-mono">
-                    {activeStudent.weekly_availability}h/wk
-                  </Pill>
-                </div>
-
-                <p className="text-[13px] text-text-muted leading-relaxed">
-                  {activeStudent.bio || 'No bio shared yet.'}
-                </p>
-
-                {activeStudent.skills.length > 0 && (
-                  <div className="pt-3 border-t border-border space-y-2">
-                    <div className="text-[11px] font-semibold text-text-dim">Skills</div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {activeStudent.skills.map((s) => (
-                        <Pill key={s.name} variant="strong">
-                          {s.name} <span className="font-mono text-[10px] text-text-dim">L{s.level}</span>
-                        </Pill>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {activeStudent.learning_goals.length > 0 && (
-                  <div className="pt-3 border-t border-border space-y-2">
-                    <div className="text-[11px] font-semibold text-text-dim">Currently Learning</div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {activeStudent.learning_goals.map((g) => (
-                        <Pill key={g} variant="burgundy">
-                          {g}
-                        </Pill>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {(activeStudent.github_username || activeStudent.linkedin_url || activeStudent.portfolio_url) && (
-                  <div className="pt-3 border-t border-border flex flex-wrap gap-3 text-xs text-text-muted">
-                    {activeStudent.github_username && (
-                      <a
-                        href={`https://github.com/${activeStudent.github_username}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 hover:text-text font-mono"
-                      >
-                        <Github className="w-3.5 h-3.5" /> @{activeStudent.github_username}
-                      </a>
-                    )}
-                    {activeStudent.portfolio_url && (
-                      <a
-                        href={activeStudent.portfolio_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 hover:text-text"
-                      >
-                        Portfolio <ExternalLink className="w-3 h-3" />
-                      </a>
-                    )}
-                  </div>
-                )}
-
-                <div className="pt-3 border-t border-border">
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    className="w-full"
-                    icon={<UserPlus className="w-3.5 h-3.5" />}
-                    onClick={() => setInviteTargetStudent(activeStudent)}
-                  >
-                    Invite to Team
-                  </Button>
-                </div>
-              </Card>
-            ) : (
-              <Card className="p-6 text-xs text-text-muted">
-                Select a student to view their skills, availability, and invite them to a team.
-              </Card>
-            )}
+          <div className="hidden lg:block lg:col-span-5 lg:self-start lg:sticky lg:top-[76px]">
+            <StudentInspector
+              student={activeStudent}
+              onInvite={(s) => setInviteTargetStudent(s)}
+            />
           </div>
         </div>
       )}
